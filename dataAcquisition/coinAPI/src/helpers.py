@@ -72,82 +72,6 @@ def num_periods(time_lapse,start,end):
     return periods
 
 
-# def save_empty_periods_info(file_path, period_length, dest_file_path, dest_file_exists):
-    
-#     """ Lo que esta funcion hace es escribir la informacion de periodos vacios del archivo 
-#         file_path al archivo dest_file_path (el cual puede o no existir: var bool dest_file_exists). Si 
-#         hay alguna inconsistencia entre el numero de periodos en los datos y las fechas de inicio y 
-#         final no se escribira nada al archivo final y se obtendra un mensaje de error para que se revisen
-#         los datos con más detalle."""
-    
-#     # Correspondencia de periodos en segundos
-#     periods_in_secs = {"1MIN":60, "5MIN":300}
-    
-#     # Cargar información
-#     with open(file_path) as csv_file:
-#         data = json.load(csv_file)
-    
-#     # Obtener fecha de inicio y fin
-#     data_start_date = data[0]['time_period_start']
-#     data_end_date   = data[-1]['time_period_end']
-    
-#     # Obtener numero de periodos sin información
-#     number_empty_periods = num_periods(period_length, data_start_date, data_end_date) - len(data)
-
-#     # Obtener indices de inicio de periodos vacios y numero de periodos vacios correspondientes
-#     # Obtenemos todas las fechas de inicio de period (en segundos)
-#     o_dates = []
-#     for i,date in enumerate(data):
-#         o_dates.append(date_to_sec(date['time_period_start']))
-
-#     #Obtenemos las diferencias entre las fechas entre elementos consecutivos
-#     diff = []
-#     for i in range(len(o_dates)-1):
-#         diff.append((o_dates[i+1]-o_dates[i])/periods_in_secs[period_length])
-#     diff = np.array(diff)
-
-#     #Escogemos los indices cuya diferencia sea mayor a la del periodo temporal que se este utilizando
-#     o_dates_diff = np.array(diff)
-#     o_dates_diff = (o_dates_diff != 1)
-#     diff_index = np.where(o_dates_diff == True)[0]
-    
-#     # El numero de periodos entre fecha de inicio y fecha de fin debe ser igual al del total de datos más los correpondientes a lagunas
-#     consistent_data = num_periods('5MIN', data_start_date, data_end_date) - (len(data)+diff.sum()-diff.shape[0])
-
-#     if consistent_data == 0:
-        
-#         file_name = file_path.split("/")[-1].split(".")[0]
-#         file_info = {
-#                     "start_date":data_start_date,
-#                     "end_date":data_end_date,
-#                     "period_length":period_length,
-#                     "total_empty_periods":number_empty_periods,
-#                     "start_idx_empty_periods":diff_index.tolist(),
-#                     "length_empty_periods":diff[diff_index].tolist()
-#                     }
-        
-#         if dest_file_exists:
-            
-#             with open(dest_file_path) as f:
-#                 dest_file = json.load(f)
-            
-#             dest_file[file_name] = file_info
-            
-#         else:
-#             dest_file = {file_name:file_info}
-        
-#         with open(dest_file_path, 'w') as f:
-#             json.dump(dest_file,f)
-            
-#         print('Empty periods info saved')   
-#         return True
-    
-#     else:
-        
-#         print('Inconsistent data, empty periods info not saved')
-#         return False
-
-
 def save_empty_periods_info(file_path, period_length, dest_file_path):
     
     """ Lo que esta funcion hace es escribir la informacion de periodos vacios del archivo 
@@ -259,5 +183,3 @@ def update_data_info(data_info, exchange_name, symbol_name, new_date, new_exchan
     
     return updated_data_info
 
-
-    

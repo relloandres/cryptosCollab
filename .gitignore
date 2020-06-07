@@ -1,4 +1,4 @@
 dataAcquisition/coinAPI/data
 dataAcquisition/coinAPI/keys
 .vscode
-dataAcquisition/coinAPI/data/src/__pycache__
+__pycache__

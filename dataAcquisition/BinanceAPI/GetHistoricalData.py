@@ -15,11 +15,10 @@ api_secret = ''
 client = Client(api_key, api_secret)
 
 symbol = "ETHUSDT"
-start = "1 Jan, 2020"
-end = "23 May, 2020"
-interval = Client.KLINE_INTERVAL_1MINUTE
+start = "1 Jan, 2018"
+end = "25 May, 2020"
+interval = Client.KLINE_INTERVAL_5MINUTE
 klines = client.get_historical_klines(symbol, interval, start, end)
-
 
 
 '''

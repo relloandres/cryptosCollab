@@ -34,6 +34,7 @@ def main(config_file_path):
     # Guardar los datos
     with open(data_file_path, 'w') as f:
         json.dump(res, f)
+    print("Data saved to: ", data_file_path)
 
     # Guardar Headers si asi se especifica
     if configs["save_headers"]:

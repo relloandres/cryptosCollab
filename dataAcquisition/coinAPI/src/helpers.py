@@ -115,7 +115,7 @@ def save_empty_periods_info(file_path, period_length, dest_file_path):
     diff_index = np.where(o_dates_diff == True)[0]
     
     # El numero de periodos entre fecha de inicio y fecha de fin debe ser igual al del total de datos más los correpondientes a lagunas
-    consistent_data = num_periods('5MIN', data_start_date, data_end_date) - (len(data)+diff.sum()-diff.shape[0])
+    consistent_data = num_periods(period_length, data_start_date, data_end_date) - (len(data)+diff.sum()-diff.shape[0])
 
     if consistent_data == 0:
         
@@ -126,7 +126,7 @@ def save_empty_periods_info(file_path, period_length, dest_file_path):
                     "period_length":period_length,
                     "total_empty_periods":number_empty_periods,
                     "start_idx_empty_periods":diff_index.tolist(),
-                    "length_empty_periods":diff[diff_index].tolist()
+                    "length_empty_periods":(diff[diff_index]-1).tolist()
                     }
         
         if dest_file_exists:
@@ -142,7 +142,7 @@ def save_empty_periods_info(file_path, period_length, dest_file_path):
         with open(dest_file_path, 'w') as f:
             json.dump(dest_file,f)
             
-        print('Empty periods info saved')   
+        print('Empty periods info saved to: ', dest_file_path)   
         return True
     
     else:

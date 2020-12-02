@@ -1,0 +1,4 @@
+This is a very simple example on how to listen to a websocket connection of binance API and save kline data into a csv file. It is based on the library: https://github.com/sammchardy/python-binance
+
+Packages it may require:'requests', 'six', 'Twisted', 'pyOpenSSL', 'autobahn', 'service-identity', 'dateparser', 'urllib3', 'chardet', 'certifi', 'cryptography'
+

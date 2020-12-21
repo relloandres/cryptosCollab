@@ -7,13 +7,13 @@ class messageHandler:
     def __init__(self, save_to_file, save_every=60):
         self.save_to_file = save_to_file
         self.msg_counter = 0
-        self.save_evry = save_every
+        self.save_every = save_every
         self.current_period_data = []
 
     def handle_msg(self, msg):
         self.current_period_data.append([msg['e'], msg['E'], msg['s'], msg['k']['i'], msg['k']['t'], msg['k']['T'], msg['k']['f'], msg['k']['L'],msg['k']['o'],msg['k']['c'],msg['k']['h'],msg['k']['l'],msg['k']['v'],msg['k']['q'],msg['k']['n'],msg['k']['x'],msg['k']['V'],msg['k']['Q'],msg['k']['B']])
 
-        if self.msg_counter==self.save_evry-1:
+        if self.msg_counter==self.save_every-1:
 
             with open(self.save_to_file, mode='a', newline='') as klines_file:
                 klines_writer = csv.writer(klines_file, delimiter=',')

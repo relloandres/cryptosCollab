@@ -51,9 +51,9 @@ class messageHandler:
 
 # Instantiate a BinanceSocketManager
 klines_bm = BinanceSocketManager()
-dest_dir = "/Users/Innomius/Andres/personal/myGithub/cryptosCollab/dataAcquisition/BinanceAPI/webSockets/testData"
+dest_dir = "/home/pi/andres/cryptos/data/binance/websockets"
 prefix = "btcusdt"
-msg_handler = messageHandler(dest_dir, prefix, save_every=5)
+msg_handler = messageHandler(dest_dir, prefix, save_every=300)
 
 # Start trade socket with 'ETHBTC' and use handle_message to.. handle the message.
 conn_key = klines_bm.start_kline_socket('BTCUSDT', msg_handler.handle_msg)

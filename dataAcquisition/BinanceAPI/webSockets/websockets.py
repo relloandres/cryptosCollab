@@ -12,6 +12,7 @@ from twisted.internet.error import ReactorAlreadyRunning
 
 import time
 
+
 class BinanceClientProtocol(WebSocketClientProtocol):
 
     def onConnect(self, response):
@@ -136,6 +137,29 @@ class BinanceSocketManager(threading.Thread):
         socket_name = '{}@kline_{}'.format(symbol.lower(), interval)
         return self._start_socket(socket_name, callback)
 
+    def start_multiplex_socket(self, streams, callback):
+        """Start a multiplexed socket using a list of socket names.
+        User stream sockets can not be included.
+
+        Symbols in socket name must be lowercase i.e bnbbtc@aggTrade, neobtc@ticker
+
+        Combined stream events are wrapped as follows: {"stream":"<streamName>","data":<rawPayload>}
+
+        https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md
+
+        :param streams: list of stream names in lower case
+        :type streams: list
+        :param callback: callback function to handle messages
+        :type callback: function
+
+        :returns: connection key string if successful, False otherwise
+
+        Message Format - see Binance API docs for all types
+
+        """
+        stream_path = 'streams={}'.format('/'.join(streams))
+        return self._start_socket(stream_path, callback, 'stream?')
+
     def stop_socket(self, conn_key):
         """Stop a websocket given the connection key
         :param conn_key: Socket connection key
@@ -146,7 +170,8 @@ class BinanceSocketManager(threading.Thread):
             return
 
         # disable reconnecting if we are closing
-        self._conns[conn_key].factory = WebSocketClientFactory(self.STREAM_URL + 'tmp_path')
+        self._conns[conn_key].factory = WebSocketClientFactory(
+            self.STREAM_URL + 'tmp_path')
         self._conns[conn_key].disconnect()
         del(self._conns[conn_key])
 

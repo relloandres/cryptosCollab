@@ -85,6 +85,7 @@ class BinanceSocketManager(threading.Thread):
         self._user_timer = None
         self._user_listen_key = None
         self._user_callback = None
+        self.reactor = reactor
         # self._client = client
 
     def _start_socket(self, path, callback, prefix='ws/'):
@@ -186,7 +187,7 @@ class BinanceSocketManager(threading.Thread):
 
     def run(self):
         try:
-            reactor.run(installSignalHandlers=False)
+            self.reactor.run(installSignalHandlers=False)
         except ReactorAlreadyRunning:
             # Ignore error about reactor already running
             pass

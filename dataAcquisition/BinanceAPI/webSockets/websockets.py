@@ -25,6 +25,7 @@ class BinanceClientProtocol(WebSocketClientProtocol):
             try:
                 payload_obj = json.loads(payload.decode('utf8'))
             except ValueError:
+                print('An exception occurred: Class BinanceClientProtocol')
                 pass
             else:
                 self.factory.callback(payload_obj)
@@ -49,13 +50,17 @@ class BinanceClientFactory(WebSocketClientFactory, BinanceReconnectingClientFact
     }
 
     def clientConnectionFailed(self, connector, reason):
+        print('clientConnectionFailed')
         self.retry(connector)
         if self.retries > self.maxRetries:
+            print('clientConnectionFailed: Max retries reached')
             self.callback(self._reconnect_error_payload)
 
     def clientConnectionLost(self, connector, reason):
+        print('clientConnectionLost')
         self.retry(connector)
         if self.retries > self.maxRetries:
+            print('clientConnectionLost: Max retries reached')
             self.callback(self._reconnect_error_payload)
 
 

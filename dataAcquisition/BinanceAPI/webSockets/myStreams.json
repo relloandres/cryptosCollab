@@ -1,0 +1,14 @@
+[
+  {
+    "name": "btcusdt@kline_1m",
+    "periodLength": "_1m",
+    "saveFrecuency": 5,
+    "destinationPath": "/home/pi/andres/cryptos/data/binance/websockets/multistreams"
+  },
+  {
+    "name": "ethusdt@kline_1m",
+    "periodLength": "_1m",
+    "saveFrecuency": 5,
+    "destinationPath": "/home/pi/andres/cryptos/data/binance/websockets/multistreams"
+  }
+]

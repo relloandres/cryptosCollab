@@ -59,6 +59,9 @@ class streamListener:
         # then start the socket manager
         self.binanceClient.start()
 
+    def restartConnection(self):
+        self.binanceClient.stop_socket()
+    
     def handle_msg(self, msg):
         current_stream_name = msg['stream']
         current_stream_data = msg['data']
@@ -103,6 +106,7 @@ class streamListener:
                 klines_writer.writerow(row)
 
         self.current_period_data[stream_name] = []
+
 
 
 # Load streams info

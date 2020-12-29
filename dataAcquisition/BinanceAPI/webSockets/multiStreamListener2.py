@@ -20,7 +20,7 @@ STREAMS_PERIODS = {
     "_1d": 86400000,
     "_3d": 259200000,
     "_1w": 604800000
-  }
+}
 
 
 class messageHandler:
@@ -59,7 +59,8 @@ class messageHandler:
         if current_stream_name not in self.streams_names:
             print(f"Unknown stream name: {current_stream_name}")
 
-        current_date = datetime.fromtimestamp(current_stream_data['k']['t'] // 1000)
+        current_date = datetime.fromtimestamp(
+            current_stream_data['k']['t'] // 1000)
         new_day = (current_date.hour == 0) and (
             current_date.minute == 0) and (current_date.second == 0)
 
@@ -67,28 +68,35 @@ class messageHandler:
             self.first_file[current_stream_name] = False
             self.current_file_tag[current_stream_name] = current_stream_data['k']['t']
             self.streams_last_checkpoint[current_stream_name] = current_stream_data['k']['t']
-            print(f"Stream: {current_stream_name}, First file tag: {self.current_file_tag[current_stream_name]}, At: {current_date}")
+            print(
+                f"Stream: {current_stream_name}, First file tag: {self.current_file_tag[current_stream_name]}, At: {current_date}")
 
         if new_day:
             if (current_stream_data['k']['t'] != self.streams_last_checkpoint[current_stream_name]):
                 self._save_data(current_stream_name)
                 self.streams_last_checkpoint[current_stream_name] = current_stream_data['k']['t']
-                self.current_period_data[current_stream_name].append([current_stream_data['e'], current_stream_data['E'], current_stream_data['s'], current_stream_data['k']['i'], current_stream_data['k']['t'], current_stream_data['k']['T'], current_stream_data['k']['f'], current_stream_data['k']['L'], current_stream_data['k']['o'], current_stream_data['k']['c'], current_stream_data['k']['h'], current_stream_data['k']['l'], current_stream_data['k']['v'], current_stream_data['k']['q'], current_stream_data['k']['n'], current_stream_data['k']['x'], current_stream_data['k']['V'], current_stream_data['k']['Q'], current_stream_data['k']['B']])
+                self.current_period_data[current_stream_name].append([current_stream_data['e'], current_stream_data['E'], current_stream_data['s'], current_stream_data['k']['i'], current_stream_data['k']['t'], current_stream_data['k']['T'], current_stream_data['k']['f'], current_stream_data['k']['L'], current_stream_data['k']['o'],
+                                                                      current_stream_data['k']['c'], current_stream_data['k']['h'], current_stream_data['k']['l'], current_stream_data['k']['v'], current_stream_data['k']['q'], current_stream_data['k']['n'], current_stream_data['k']['x'], current_stream_data['k']['V'], current_stream_data['k']['Q'], current_stream_data['k']['B']])
                 self.current_file_tag[current_stream_name] = current_stream_data['k']['t']
-                print(f"Stream: {current_stream_name}, New file tag: {self.current_file_tag[current_stream_name]}, At: {current_date}")
+                print(
+                    f"Stream: {current_stream_name}, New file tag: {self.current_file_tag[current_stream_name]}, At: {current_date}")
 
         else:
-            trigger_save_process = (current_stream_data['k']['t']-self.streams_last_checkpoint[current_stream_name]) // self.streams_periods[current_stream_name] == self.streams_save_frecuency[current_stream_name]
+            trigger_save_process = (current_stream_data['k']['t']-self.streams_last_checkpoint[current_stream_name]
+                                    ) // self.streams_periods[current_stream_name] == self.streams_save_frecuency[current_stream_name]
             if trigger_save_process:
                 self._save_data(current_stream_name)
                 self.streams_last_checkpoint[current_stream_name] = current_stream_data['k']['t']
-                print(f"Stream: {current_stream_name}, File tag: {self.current_file_tag[current_stream_name]}, At: {current_date}")
-            
-            self.current_period_data[current_stream_name].append([current_stream_data['e'], current_stream_data['E'], current_stream_data['s'], current_stream_data['k']['i'], current_stream_data['k']['t'], current_stream_data['k']['T'], current_stream_data['k']['f'], current_stream_data['k']['L'], current_stream_data['k']['o'], current_stream_data['k']['c'], current_stream_data['k']['h'], current_stream_data['k']['l'], current_stream_data['k']['v'], current_stream_data['k']['q'], current_stream_data['k']['n'], current_stream_data['k']['x'], current_stream_data['k']['V'], current_stream_data['k']['Q'], current_stream_data['k']['B']])
+                print(
+                    f"Stream: {current_stream_name}, File tag: {self.current_file_tag[current_stream_name]}, At: {current_date}")
 
+            self.current_period_data[current_stream_name].append([current_stream_data['e'], current_stream_data['E'], current_stream_data['s'], current_stream_data['k']['i'], current_stream_data['k']['t'], current_stream_data['k']['T'], current_stream_data['k']['f'], current_stream_data['k']['L'], current_stream_data['k']['o'],
+                                                                  current_stream_data['k']['c'], current_stream_data['k']['h'], current_stream_data['k']['l'], current_stream_data['k']['v'], current_stream_data['k']['q'], current_stream_data['k']['n'], current_stream_data['k']['x'], current_stream_data['k']['V'], current_stream_data['k']['Q'], current_stream_data['k']['B']])
 
     def _save_data(self, stream_name):
-        file_name = self.streams_destination_path[stream_name] + '/' + stream_name + '-' + str(self.current_file_tag[stream_name]) + '.csv'
+        file_name = self.streams_destination_path[stream_name] + '/' + \
+            stream_name + '-' + \
+            str(self.current_file_tag[stream_name]) + '.csv'
 
         with open(file_name, mode='a', newline='') as klines_file:
             klines_writer = csv.writer(klines_file, delimiter=',')
@@ -100,7 +108,7 @@ class messageHandler:
 
 
 # Load streams info
-with open("/home/pi/andres/cryptos/cryptosCollab/dataAcquisition/BinanceAPI/webSockets/myStreams.json") as json_file:
+with open("/Users/Innomius/Andres/personal/myGithub/cryptosCollab/dataAcquisition/BinanceAPI/webSockets/myStreams.json") as json_file:
     my_streams_info = json.load(json_file)
 
 # Instantiate a BinanceSocketManager
@@ -117,36 +125,21 @@ for s in my_streams_info:
 conn = klines_bm.start_multiplex_socket(
     streams_to_listen, msg_handler.handle_msg)
 
-
-
-
-if klines_bm.is_alive(): 
-    print('Still running') 
-else: 
-    print('Completed')
-
-
 # then start the socket manager
 klines_bm.start()
 
 
-if klines_bm.is_alive(): 
-    print('Still running') 
-else: 
-    print('Completed')
+# # Block code to stop connection and stop thread
+# print("Start sleeping")
+# time.sleep(10)
+# print("End sleeping")
+# # stop the socket manager
+# klines_bm.stop_socket(conn)
+# klines_bm.reactor.callFromThread(klines_bm.reactor.stop)
+# klines_bm.join()
 
 
-
-
-print("Start sleeping")
-time.sleep(10)
-print("End sleeping")
-# stop the socket manager
-klines_bm.stop_socket(conn)
-
-
-
-if klines_bm.is_alive(): 
-    print('Still running') 
-else: 
-    print('Completed')
+# if klines_bm.is_alive():
+#     print('Still running')
+# else:
+#     print('Completed')

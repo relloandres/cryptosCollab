@@ -3,3 +3,4 @@ dataAcquisition/coinAPI/keys
 .vscode
 __pycache__
 .ipynb_checkpoints/
+MoneyTransfer/Keys/

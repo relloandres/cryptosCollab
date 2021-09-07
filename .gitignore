@@ -4,3 +4,5 @@ dataAcquisition/coinAPI/keys
 __pycache__
 .ipynb_checkpoints/
 MoneyTransfer/Keys/
+biblio/
+
